@@ -1,7 +1,10 @@
-import React from 'react';
-import { ArrowUp, Youtube, Linkedin, Instagram, Twitter, Mail } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowUp, Youtube, Linkedin, Instagram, Twitter, Mail, Lock } from 'lucide-react';
+import { BlogBuilderModal } from './BlogBuilderModal';
 
 export const Footer: React.FC = () => {
+  const [isBuilderOpen, setIsBuilderOpen] = useState(false);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -61,13 +64,27 @@ export const Footer: React.FC = () => {
             })}
           </div>
 
-          {/* Right: Copyright & Disclaimer */}
-          <div className="text-center md:text-right text-stone-driftwood">
+          {/* Right: Copyright & Disclaimer + Admin Key */}
+          <div className="flex items-center justify-center md:justify-end gap-3 text-stone-driftwood">
             <span>© {new Date().getFullYear()} The Dolapo Olutoye. Built for Purpose.</span>
+            <button
+              onClick={() => setIsBuilderOpen(true)}
+              className="text-stone-driftwood hover:text-beacon transition-colors p-1 rounded hover:bg-white/[0.05] cursor-pointer"
+              title="Admin Blog Studio (Cmd+Shift+B)"
+              aria-label="Admin Blog Studio"
+            >
+              <Lock className="w-3 h-3" />
+            </button>
           </div>
         </div>
 
       </div>
+
+      {/* Admin Blog Builder Modal */}
+      <BlogBuilderModal
+        isOpen={isBuilderOpen}
+        onClose={() => setIsBuilderOpen(false)}
+      />
     </footer>
   );
 };

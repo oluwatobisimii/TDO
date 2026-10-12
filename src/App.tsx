@@ -18,11 +18,25 @@ import { FinalCtaSection } from './components/FinalCtaSection';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import { LighthouseLoader } from './components/LighthouseLoader';
-import { BlogBuilderModal } from './components/BlogBuilderModal';
+
+// Dedicated Sub-Pages
+import { AdminLoginPage } from './pages/AdminLoginPage';
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { AdminBlogEditorPage } from './pages/AdminBlogEditorPage';
+import { BlogReaderPage } from './pages/BlogReaderPage';
+import { isAuthenticated, logoutAdmin } from './utils/auth';
+
+type RouteState =
+  | { type: 'home' }
+  | { type: 'admin-login' }
+  | { type: 'admin-dashboard' }
+  | { type: 'admin-create' }
+  | { type: 'admin-edit'; blogId: string }
+  | { type: 'blog'; slug: string };
 
 export function App() {
+  const [route, setRoute] = useState<RouteState>({ type: 'home' });
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [bookingType, setBookingType] = useState<'speaking' | 'consulting' | 'general'>('general');
   const [currentCoord, setCurrentCoord] = useState<{ lat: string; bearing: string; waypoint: string }>({
     lat: "06°27.4'N",
@@ -30,44 +44,79 @@ export function App() {
     waypoint: "WP.00",
   });
 
-  // URL Route Detection for Admin (#admin, #login, /admin) + Keyboard Shortcut
-  useEffect(() => {
-    const checkAdminRoute = () => {
-      const hash = window.location.hash.toLowerCase();
-      const path = window.location.pathname.toLowerCase();
-      if (hash === '#admin' || hash === '#login' || path === '/admin') {
-        setIsAdminOpen(true);
+  // Client-Side Route Resolution
+  const resolveRoute = (): RouteState => {
+    const hash = window.location.hash;
+    const path = window.location.pathname;
+
+    // Check Blog Reader Route: #/blog/:slug or /blog/:slug
+    if (hash.startsWith('#/blog/') || hash.startsWith('#blog/')) {
+      const slug = hash.replace(/^#\/?blog\//, '').split('?')[0];
+      if (slug) return { type: 'blog', slug };
+    }
+    if (path.startsWith('/blog/')) {
+      const slug = path.replace(/^\/blog\//, '').split('?')[0];
+      if (slug) return { type: 'blog', slug };
+    }
+
+    // Check Admin Sub-routes
+    const isAdmin = hash.includes('admin') || path.includes('admin');
+    if (isAdmin) {
+      const authed = isAuthenticated();
+
+      // Create Route: #/admin/create or /admin/create
+      if (hash.includes('admin/create') || path.includes('admin/create')) {
+        return authed ? { type: 'admin-create' } : { type: 'admin-login' };
       }
+
+      // Edit Route: #/admin/edit/:id or /admin/edit/:id
+      const editMatch = hash.match(/admin\/edit\/([^/?]+)/) || path.match(/admin\/edit\/([^/?]+)/);
+      if (editMatch && editMatch[1]) {
+        return authed ? { type: 'admin-edit', blogId: editMatch[1] } : { type: 'admin-login' };
+      }
+
+      // Dashboard Route: #/admin/dashboard or /admin/dashboard
+      if (hash.includes('admin/dashboard') || path.includes('admin/dashboard')) {
+        return authed ? { type: 'admin-dashboard' } : { type: 'admin-login' };
+      }
+
+      // Default Admin Route: #/admin or /admin
+      return authed ? { type: 'admin-dashboard' } : { type: 'admin-login' };
+    }
+
+    return { type: 'home' };
+  };
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setRoute(resolveRoute());
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    checkAdminRoute();
-    window.addEventListener('hashchange', checkAdminRoute);
-    window.addEventListener('popstate', checkAdminRoute);
+    handleLocationChange();
+    window.addEventListener('hashchange', handleLocationChange);
+    window.addEventListener('popstate', handleLocationChange);
 
+    // Global shortcut Cmd+Shift+B / Ctrl+Shift+B to jump to Admin
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'b') {
         e.preventDefault();
-        setIsAdminOpen((prev) => !prev);
+        window.location.hash = isAuthenticated() ? '#/admin/dashboard' : '#/admin';
       }
     };
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener('hashchange', checkAdminRoute);
-      window.removeEventListener('popstate', checkAdminRoute);
+      window.removeEventListener('hashchange', handleLocationChange);
+      window.removeEventListener('popstate', handleLocationChange);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
-  const handleCloseAdmin = () => {
-    setIsAdminOpen(false);
-    if (window.location.hash.toLowerCase() === '#admin' || window.location.hash.toLowerCase() === '#login') {
-      window.history.pushState(null, '', window.location.pathname);
-    }
-  };
-
-  // Initialize Lenis Smooth Inertial Scroll
+  // Initialize Lenis Smooth Scroll only for the home portfolio page
   useEffect(() => {
+    if (route.type !== 'home') return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -81,19 +130,89 @@ export function App() {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-
     requestAnimationFrame(raf);
 
     return () => {
       lenis.destroy();
     };
-  }, []);
+  }, [route.type]);
+
+  const navigateTo = (newHash: string) => {
+    window.location.hash = newHash;
+  };
 
   const handleOpenBooking = (type: 'speaking' | 'consulting' | 'general' = 'general') => {
     setBookingType(type);
     setIsBookingOpen(true);
   };
 
+  // -------------------------------------------------------------
+  // RENDER DEDICATED PAGES
+  // -------------------------------------------------------------
+
+  // 1. Admin Login Page
+  if (route.type === 'admin-login') {
+    return (
+      <AdminLoginPage
+        onSuccess={() => navigateTo('#/admin/dashboard')}
+        onBackToHome={() => navigateTo('#/')}
+      />
+    );
+  }
+
+  // 2. Admin Dashboard Page
+  if (route.type === 'admin-dashboard') {
+    return (
+      <AdminDashboardPage
+        onCreateNew={() => navigateTo('#/admin/create')}
+        onEditBlog={(id) => navigateTo(`#/admin/edit/${id}`)}
+        onViewBlog={(slug) => navigateTo(`#/blog/${slug}`)}
+        onBackToHome={() => navigateTo('#/')}
+        onLogout={() => {
+          logoutAdmin();
+          navigateTo('#/admin');
+        }}
+      />
+    );
+  }
+
+  // 3. Admin Create Blog Page
+  if (route.type === 'admin-create') {
+    return (
+      <AdminBlogEditorPage
+        mode="create"
+        onSaveSuccess={() => navigateTo('#/admin/dashboard')}
+        onCancel={() => navigateTo('#/admin/dashboard')}
+      />
+    );
+  }
+
+  // 4. Admin Edit Blog Page
+  if (route.type === 'admin-edit') {
+    return (
+      <AdminBlogEditorPage
+        mode="edit"
+        blogId={route.blogId}
+        onSaveSuccess={() => navigateTo('#/admin/dashboard')}
+        onCancel={() => navigateTo('#/admin/dashboard')}
+      />
+    );
+  }
+
+  // 5. Dedicated Blog Reader Page
+  if (route.type === 'blog') {
+    return (
+      <BlogReaderPage
+        slug={route.slug}
+        onBackToHome={() => navigateTo('#discourse')}
+        onSelectOtherPost={(otherSlug) => navigateTo(`#/blog/${otherSlug}`)}
+      />
+    );
+  }
+
+  // -------------------------------------------------------------
+  // RENDER MAIN HOMEPAGE (LANDING PORTFOLIO)
+  // -------------------------------------------------------------
   return (
     <div className="min-h-screen text-cream relative selection:bg-beacon selection:text-black bg-gradient-to-b from-[#0c101a] via-[#091b26] via-[#081524] via-[#050d18] to-[#03060c]">
       {/* 2-Second Architectural Lighthouse Web Loading Animation */}
@@ -132,7 +251,7 @@ export function App() {
           }}
         />
 
-        {/* WP.03 / 42°N: Ideas Worth Building / Discourse */}
+        {/* WP.03 / 42°N: Ideas Worth Building / Discourse (Horizontal Scroll Track) */}
         <IdeasSection />
 
         {/* WP.04 / 56°N: YouTube Shorts & Broadcast Dispatches */}
@@ -170,12 +289,6 @@ export function App() {
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
         initialType={bookingType}
-      />
-
-      {/* Admin Blog Builder Studio Modal (Opens on /#admin, /admin, or Cmd+Shift+B) */}
-      <BlogBuilderModal
-        isOpen={isAdminOpen}
-        onClose={handleCloseAdmin}
       />
     </div>
   );

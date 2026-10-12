@@ -5,12 +5,10 @@ import {
 } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { BlogPost, getStoredBlogs } from '../data/blogs';
-import { BlogReaderModal } from './BlogReaderModal';
 
 export const IdeasSection: React.FC = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [activeCategory, setActiveCategory] = useState('All');
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const scrollTrackRef = useRef<HTMLDivElement>(null);
 
   // Load and subscribe to real-time blog updates
@@ -128,7 +126,7 @@ export const IdeasSection: React.FC = () => {
               {filteredIdeas.map((idea, idx) => (
                 <div
                   key={idea.id}
-                  onClick={() => setSelectedPost(idea)}
+                  onClick={() => { window.location.hash = `#/blog/${idea.slug}`; }}
                   className="w-[310px] sm:w-[380px] md:w-[420px] shrink-0 snap-start h-full group cursor-pointer"
                 >
                   <div className="p-8 sm:p-9 rounded-3xl bg-black/60 hover:bg-black/80 border border-white/15 hover:border-beacon/50 transition-all duration-300 card-glow flex flex-col justify-between backdrop-blur-xl shadow-xl h-full min-h-[380px] relative overflow-hidden">
@@ -204,11 +202,6 @@ export const IdeasSection: React.FC = () => {
 
       </div>
 
-      {/* Full Article Reader Modal */}
-      <BlogReaderModal
-        post={selectedPost}
-        onClose={() => setSelectedPost(null)}
-      />
     </section>
   );
 };

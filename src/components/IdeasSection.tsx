@@ -6,13 +6,11 @@ import {
 import { Reveal } from './ui/Reveal';
 import { BlogPost, getStoredBlogs } from '../data/blogs';
 import { BlogReaderModal } from './BlogReaderModal';
-import { BlogBuilderModal } from './BlogBuilderModal';
 
 export const IdeasSection: React.FC = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
-  const [isBuilderOpen, setIsBuilderOpen] = useState(false);
   const scrollTrackRef = useRef<HTMLDivElement>(null);
 
   // Load and subscribe to real-time blog updates
@@ -24,18 +22,6 @@ export const IdeasSection: React.FC = () => {
 
     window.addEventListener('tdo_blogs_updated', loadBlogs);
     return () => window.removeEventListener('tdo_blogs_updated', loadBlogs);
-  }, []);
-
-  // Keyboard shortcut Cmd+Shift+B / Ctrl+Shift+B to open Admin Blog Builder
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'b') {
-        e.preventDefault();
-        setIsBuilderOpen(prev => !prev);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const categories = ['All', ...Array.from(new Set(blogs.map(b => b.category)))];
@@ -78,9 +64,9 @@ export const IdeasSection: React.FC = () => {
 
             {/* Subtle Admin Studio Trigger */}
             <button
-              onClick={() => setIsBuilderOpen(true)}
+              onClick={() => { window.location.hash = '#admin'; }}
               className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-stone-accent hover:text-beacon font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer group"
-              title="Open Admin Blog Builder (or press Cmd+Shift+B)"
+              title="Open Admin Blog Builder (or visit /#admin)"
             >
               <PenTool className="w-3 h-3 group-hover:rotate-12 transition-transform" />
               <span>Admin Studio</span>
@@ -234,15 +220,6 @@ export const IdeasSection: React.FC = () => {
       <BlogReaderModal
         post={selectedPost}
         onClose={() => setSelectedPost(null)}
-      />
-
-      {/* Admin Blog Builder Studio */}
-      <BlogBuilderModal
-        isOpen={isBuilderOpen}
-        onClose={() => setIsBuilderOpen(false)}
-        onPublished={(newPost) => {
-          setSelectedPost(newPost);
-        }}
       />
     </section>
   );

@@ -18,15 +18,53 @@ import { FinalCtaSection } from './components/FinalCtaSection';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import { LighthouseLoader } from './components/LighthouseLoader';
+import { BlogBuilderModal } from './components/BlogBuilderModal';
 
 export function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [bookingType, setBookingType] = useState<'speaking' | 'consulting' | 'general'>('general');
   const [currentCoord, setCurrentCoord] = useState<{ lat: string; bearing: string; waypoint: string }>({
     lat: "06°27.4'N",
     bearing: "042° NE",
     waypoint: "WP.00",
   });
+
+  // URL Route Detection for Admin (#admin, #login, /admin) + Keyboard Shortcut
+  useEffect(() => {
+    const checkAdminRoute = () => {
+      const hash = window.location.hash.toLowerCase();
+      const path = window.location.pathname.toLowerCase();
+      if (hash === '#admin' || hash === '#login' || path === '/admin') {
+        setIsAdminOpen(true);
+      }
+    };
+
+    checkAdminRoute();
+    window.addEventListener('hashchange', checkAdminRoute);
+    window.addEventListener('popstate', checkAdminRoute);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        setIsAdminOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('hashchange', checkAdminRoute);
+      window.removeEventListener('popstate', checkAdminRoute);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const handleCloseAdmin = () => {
+    setIsAdminOpen(false);
+    if (window.location.hash.toLowerCase() === '#admin' || window.location.hash.toLowerCase() === '#login') {
+      window.history.pushState(null, '', window.location.pathname);
+    }
+  };
 
   // Initialize Lenis Smooth Inertial Scroll
   useEffect(() => {
@@ -132,6 +170,12 @@ export function App() {
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
         initialType={bookingType}
+      />
+
+      {/* Admin Blog Builder Studio Modal (Opens on /#admin, /admin, or Cmd+Shift+B) */}
+      <BlogBuilderModal
+        isOpen={isAdminOpen}
+        onClose={handleCloseAdmin}
       />
     </div>
   );

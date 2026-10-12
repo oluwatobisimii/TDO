@@ -53,10 +53,10 @@ export const WhatIDoSection: React.FC<WhatIDoSectionProps> = ({ onSelectService 
       num: '04',
       title: 'Content & Media',
       tagline: 'Creating ideas that challenge and equip.',
-      desc: 'Distilling high-level mental models and cultural critiques into sharp video essays, YouTube Shorts, and written articles.',
+      desc: 'Distilling high-level mental models and cultural critiques into sharp video essays, YouTube Shorts, Instagram Reels, and written articles.',
       deliverables: [
         'Video Essays & Strategic Breakdowns',
-        'YouTube Shorts & Executive Frameworks',
+        'YouTube Shorts, Instagram Reels & Executive Frameworks',
         'Keynote Transcripts & Systems Essays',
         'Broadcast Dialogues & Podcasts',
       ],

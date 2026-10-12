@@ -6,15 +6,15 @@ export const AboutSection: React.FC = () => {
   const bulletItems = [
     {
       lead: 'The Mind as the Irreducible Foundation',
-      body: 'You cannot build resilient institutions or high-performance teams on chaotic thinking. True discipline starts within.',
+      body: 'You cannot build resilient institutions or high-performing teams on confused thinking. The quality of what we build is shaped by the quality of how we think. Lasting discipline begins within.',
     },
     {
       lead: 'Systems Over Sporadic Hustle',
-      body: 'Africa does not lack talent. We lack repeatable systems. We replace emotional hustle with structured operational clarity.',
+      body: 'Africa does not lack talent. But talent alone cannot build a continent. We need systems that turn individual effort into consistent results, moving beyond sporadic hustle towards operational clarity and sustainable growth.',
     },
     {
-      lead: 'The Continental Transformation Ripple',
-      body: 'Building better people builds better enterprises, stronger governance, and ultimately, a self-sustaining continent.',
+      lead: 'The Power of Building Forward',
+      body: 'When we build better people, we build better businesses. Better businesses strengthen communities and institutions. And when these foundations become stronger, we create the conditions for Africa to thrive.',
     },
   ];
 
@@ -44,11 +44,16 @@ export const AboutSection: React.FC = () => {
           </h2>
         </Reveal>
 
-        {/* Short, Crisp Paragraph */}
+        {/* Crisp Introduction Paragraphs */}
         <Reveal delay={160}>
-          <p className="max-w-2xl text-lg sm:text-xl text-[#f3ece2] font-normal leading-[1.65] mb-14 drop-shadow-sm">
-            It will be built by people with sound minds who engineer strong systems. Operating across data science, leadership, and commercial strategy, Dolapo helps builders replace ambiguity with traction.
-          </p>
+          <div className="max-w-3xl space-y-4 mb-14">
+            <p className="text-xl sm:text-2xl text-cream font-serif italic leading-[1.4] drop-shadow-sm">
+              It will be built by people who think clearly, lead intentionally, and build systems that last.
+            </p>
+            <p className="text-base sm:text-lg text-[#e8ded0] font-normal leading-[1.65] drop-shadow-sm">
+              Through data science, business strategy, leadership, and purpose, Dolapo Olutoye explores how we turn ideas into action, replace guesswork with structure, and build things that create lasting impact.
+            </p>
+          </div>
         </Reveal>
 
         {/* Two-Column Grid: Bullets & Portrait */}

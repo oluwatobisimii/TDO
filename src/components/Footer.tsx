@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Youtube, Linkedin, Instagram, Twitter, Mail, Lock } from 'lucide-react';
+import { ArrowUp, Youtube, Linkedin, Instagram, Twitter, Mail } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -62,16 +62,8 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Right: Copyright & Disclaimer + Admin Key */}
-          <div className="flex items-center justify-center md:justify-end gap-3 text-stone-driftwood">
+          <div className="text-center md:text-right text-stone-driftwood">
             <span>© {new Date().getFullYear()} The Dolapo Olutoye. Built for Purpose.</span>
-            <button
-              onClick={() => { window.location.hash = '#admin'; }}
-              className="text-stone-driftwood hover:text-beacon transition-colors p-1 rounded hover:bg-white/[0.05] cursor-pointer"
-              title="Admin Blog Studio (/#admin or Cmd+Shift+B)"
-              aria-label="Admin Blog Studio"
-            >
-              <Lock className="w-3 h-3" />
-            </button>
           </div>
         </div>
 

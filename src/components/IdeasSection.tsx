@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Compass, BookOpen, ArrowUpRight, Sparkles, FileText, 
-  ChevronLeft, ChevronRight, PenTool, Lock 
+  ChevronLeft, ChevronRight 
 } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { BlogPost, getStoredBlogs } from '../data/blogs';
@@ -52,25 +52,13 @@ export const IdeasSection: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
         
-        {/* Top Eyebrow with Secret / Discreet Studio Trigger */}
+        {/* Top Eyebrow */}
         <Reveal delay={0}>
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-beacon" />
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-beacon font-semibold">
-                WAYPOINT 03 · 42°N · INTELLECT & DISCOURSE
-              </span>
-            </div>
-
-            {/* Subtle Admin Studio Trigger */}
-            <button
-              onClick={() => { window.location.hash = '#admin'; }}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-stone-accent hover:text-beacon font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer group"
-              title="Open Admin Blog Builder (or visit /#admin)"
-            >
-              <PenTool className="w-3 h-3 group-hover:rotate-12 transition-transform" />
-              <span>Admin Studio</span>
-            </button>
+          <div className="flex items-center gap-2 mb-6">
+            <span className="w-2 h-2 rounded-full bg-beacon" />
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-beacon font-semibold">
+              WAYPOINT 03 · 42°N · INTELLECT & DISCOURSE
+            </span>
           </div>
         </Reveal>
 

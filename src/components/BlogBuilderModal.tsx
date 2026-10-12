@@ -183,9 +183,11 @@ export const BlogBuilderModal: React.FC<BlogBuilderModalProps> = ({ isOpen, onCl
             )}
             <button
               onClick={onClose}
-              className="p-2 text-stone-accent hover:text-white rounded-full hover:bg-white/[0.08] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-stone-accent hover:text-white transition-colors cursor-pointer text-xs font-mono uppercase tracking-wider"
+              title="Return to public portfolio"
             >
-              <X className="w-5 h-5" />
+              <span className="hidden sm:inline">Exit to Website</span>
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

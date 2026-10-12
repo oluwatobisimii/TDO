@@ -13,50 +13,50 @@ export const ImpactSection: React.FC = () => {
     {
       value: 3000,
       suffix: '+',
-      label: 'People Equipped',
-      subtext: 'Across masterclasses, analytics bootcamps, and youth summits.',
+      label: 'Students Trained',
+      subtext: 'Data analytics, business intelligence, cloud, AI & ML programs led at New Horizons.',
     },
     {
-      value: 50,
+      value: 20,
       suffix: '+',
-      label: 'Advisory Audits',
-      subtext: 'Data science models, operational architectures, and strategic roadmaps.',
+      label: 'Founders Supported',
+      subtext: 'Unit economics validation, investor readiness, and commercial modeling with Kings Consult.',
     },
     {
-      value: 10,
+      value: 10000,
       suffix: '+',
-      label: 'Teams Led',
-      subtext: 'Direct leadership of engineering, data, and operational teams.',
+      label: 'Social Audience',
+      subtext: 'Founders, builders, and professionals engaged across digital media and thought leadership.',
     },
     {
-      value: 90,
-      suffix: '%+',
-      label: 'Efficiency Gain',
-      subtext: 'Measured reductions in workflow redundancy across client engagements.',
+      value: 7000,
+      suffix: '+',
+      label: 'Summit & Award Reach',
+      subtext: 'Tech Impact Award recipient (Tech Cirvee); keynotes across Nigeria, Africa & Europe.',
     },
   ];
 
   const caseStudies = [
     {
-      tag: 'LOGISTICS & DISTRIBUTION',
-      title: 'Workflow Automation & Telemetry',
-      client: 'Regional Logistics Consortium',
-      impact: 'Automated data tracking pipelines, eliminating weekly reporting delays and reducing order friction by 34%.',
-      metric: '34% Friction Reduction',
-    },
-    {
-      tag: 'EXECUTIVE CAPACITY',
-      title: 'Strategic Leadership Cohort',
-      client: 'Financial Services Institution',
-      impact: 'Customized 8-week executive development program for 120+ team leads, establishing standardized KPI tracking.',
-      metric: '120+ Leaders Certified',
-    },
-    {
       tag: 'VENTURE STRATEGY',
       title: 'Commercial Model Validation',
-      client: 'Kings Consult Portfolio',
-      impact: 'Guided 20+ tech founders through unit economic validation, customer discovery, and investor readiness.',
-      metric: '20+ Ventures Scaled',
+      client: 'KINGS CONSULT PORTFOLIO',
+      impact: 'Guided 20+ tech founders through unit economics validation, customer discovery, and investor readiness—helping them examine the commercial viability of their ideas and build stronger foundations for growth.',
+      metric: '20+ Founders Supported',
+    },
+    {
+      tag: 'CAPACITY BUILDING',
+      title: 'Technology Education & Workforce Development',
+      client: 'NEW HORIZONS',
+      impact: "Led technology training and educational initiatives, developing people's capabilities across data analytics, business intelligence, cloud computing, AI, and machine learning. Trained thousands of learners and supported their professional development.",
+      metric: '3,000+ Students Trained',
+    },
+    {
+      tag: 'MEDIA & INFLUENCE',
+      title: 'Digital Storytelling & Thought Leadership',
+      client: 'THE DOLAPO OLUTOYE BRAND',
+      impact: 'Building an audience around business, technology, leadership, and purpose through content creation, public speaking, and community engagement. Spoken at university conferences in Nigeria, Africa and Europe, convened technology conferences attracting 1,500+ participants, and honored with the Tech Impact Award from Tech Cirvee with 7,000+ attendees.',
+      metric: '10,000+ Social Audience',
     },
   ];
 
@@ -100,7 +100,7 @@ export const ImpactSection: React.FC = () => {
           <div className="flex items-center gap-2 mb-6">
             <span className="w-2 h-2 rounded-full bg-beacon" />
             <span className="font-mono text-xs uppercase tracking-[0.22em] text-beacon font-semibold">
-              WAYPOINT 06 · 75°N · SYSTEMS & PROOF OF IMPACT
+              WAYPOINT 06 · 75°N · VERIFIED SELECTED IMPACT
             </span>
           </div>
         </Reveal>
@@ -108,14 +108,14 @@ export const ImpactSection: React.FC = () => {
         {/* Big Serif Headline with Italic Accent */}
         <Reveal delay={80}>
           <h2 className="font-serif text-4xl sm:text-6xl lg:text-[4.5rem] font-normal leading-[1.08] text-white tracking-tight mb-8 max-w-4xl drop-shadow-md">
-            We do not trade in vague ambition. We measure durable <span className="italic text-beacon">proof</span>.
+            Building Businesses. Developing People. Creating <span className="italic text-beacon">Influence</span>.
           </h2>
         </Reveal>
 
         {/* Short Paragraph */}
         <Reveal delay={160}>
-          <p className="max-w-2xl text-lg sm:text-xl text-[#f3ece2] font-normal leading-[1.65] mb-14 drop-shadow-sm">
-            Rather than a static CV, this brand is calibrated by tangible shifts in institutional capability, workflow velocity, and individual discipline.
+          <p className="max-w-3xl text-lg sm:text-xl text-[#f3ece2] font-normal leading-[1.65] mb-14 drop-shadow-sm">
+            Through business strategy, technology, leadership, and digital storytelling, Dolapo Olutoye helps founders and organisations turn ideas into action, strengthen their operations, and connect knowledge with opportunity.
           </p>
         </Reveal>
 
@@ -155,14 +155,14 @@ export const ImpactSection: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 pb-4 border-b border-white/15">
               <div>
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-beacon block mb-1 font-semibold">
-                  VERIFIED ARCHIVES
+                  VERIFIED SELECTED IMPACT
                 </span>
                 <h3 className="font-serif text-2xl sm:text-3xl text-white font-normal drop-shadow-sm">
                   Solving Operational Complexities
                 </h3>
               </div>
               <span className="font-mono text-xs text-[#d6cebe] uppercase tracking-wider mt-2 sm:mt-0">
-                KINGS CONSULT FIELD LOGS
+                STRATEGY × SYSTEMS × INFLUENCE
               </span>
             </div>
           </Reveal>
@@ -219,8 +219,8 @@ export const ImpactSection: React.FC = () => {
             </p>
 
             <div className="mt-4 pt-3 border-t border-white/15 flex items-center justify-between text-xs font-mono text-[#d6cebe] uppercase tracking-wider">
-              <span>COORDINATE: 75°N</span>
-              <span>STATUS: REPEATABLE</span>
+              <span>COORDINATE: 75°N · STRATEGY × SYSTEMS × INFLUENCE</span>
+              <span>STATUS: BUILDING FORWARD</span>
             </div>
           </div>
         </Reveal>

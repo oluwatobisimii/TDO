@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  
+  html {
+    background-color: #0a0a0a;
+    color: #ffedd7;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    color: #ffedd7;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Emil Kowalski Tactile Button Press Feedback */
+.btn-press {
+  transition: transform 160ms var(--ease-out), background-color 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  will-change: transform;
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Tactile Interactive Card Elevation */
+.card-press {
+  transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  will-change: transform;
+}
+.card-press:hover {
+  transform: translateY(-2px);
+}
+.card-press:active {
+  transform: scale(0.99);
+}
+
+/* Origin-Aware Popover Animation (Never animate from scale(0)) */
+@keyframes popoverIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.popover-enter {
+  animation: popoverIn 160ms var(--ease-out) forwards;
+  transform-origin: top left;
+}
+
+/* Modal Dialog Scale Entrance */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-enter {
+  animation: modalIn 220ms var(--ease-out) forwards;
+}
+
+/* Emil Kowalski Minimalist Scroll Reveal Styles */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scale-reveal {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 480ms var(--ease-out), transform 480ms var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.scale-reveal.is-revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fade-reveal {
+  opacity: 0;
+  transition: opacity 450ms var(--ease-out);
+  will-change: opacity;
+}
+
+.fade-reveal.is-revealed {
+  opacity: 1;
+}
+
+/* Emil Kowalski Tab Content Transition & Staggered Children */
+@keyframes tabFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-pane-enter {
+  animation: tabFadeUp 280ms var(--ease-out) both;
+}
+
+.tab-stagger-1 {
+  animation: tabFadeUp 260ms var(--ease-out) both;
+  animation-delay: 20ms;
+}
+
+.tab-stagger-2 {
+  animation: tabFadeUp 260ms var(--ease-out) both;
+  animation-delay: 50ms;
+}
+
+.tab-stagger-3 {
+  animation: tabFadeUp 260ms var(--ease-out) both;
+  animation-delay: 85ms;
+}
+
+.tab-stagger-4 {
+  animation: tabFadeUp 260ms var(--ease-out) both;
+  animation-delay: 120ms;
+}
+
+.tab-stagger-5 {
+  animation: tabFadeUp 260ms var(--ease-out) both;
+  animation-delay: 155ms;
+}
+
+.tab-stagger-6 {
+  animation: tabFadeUp 260ms var(--ease-out) both;
+  animation-delay: 190ms;
+}
+
+.tab-stagger-7 {
+  animation: tabFadeUp 260ms var(--ease-out) both;
+  animation-delay: 225ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scale-reveal,
+  .fade-reveal,
+  .tab-pane-enter,
+  [class*="tab-stagger-"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Custom Utilities */
+.editorial-mask {
+  mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+}
+
+.beacon-cone-gradient {
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    transparent 0deg,
+    rgba(253, 224, 71, 0.12) 30deg,
+    rgba(245, 158, 11, 0.22) 45deg,
+    rgba(253, 224, 71, 0.12) 60deg,
+    transparent 90deg,
+    transparent 360deg
+  );
+}
+
+.text-glow {
+  text-shadow: 0 0 24px rgba(245, 158, 11, 0.4), 0 0 48px rgba(253, 224, 71, 0.2);
+}
+
+.card-glow {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.3), 0 15px 40px -10px rgba(245, 158, 11, 0.12);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b;
+}
+

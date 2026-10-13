@@ -6,39 +6,45 @@ export const TrustGrid: React.FC = () => {
   const principles = [
     {
       icon: Cpu,
-      title: 'Empirical Model Rigor',
-      desc: 'Tested against real operating data, unit economics, and market frictions—never speculative theory.',
       tag: 'RIGOR',
+      title: 'Evidence Before Assumptions',
+      desc: 'Grounded in evidence, tested against real-world constraints, and informed by data. Every recommendation should stand up to scrutiny—not just sound convincing in theory.',
+      standard: 'EVIDENCE-LED',
     },
     {
       icon: Lock,
-      title: 'Institutional Discretion',
-      desc: 'Boardroom deliberations and sensitive telemetry are safeguarded under strict non-disclosure.',
-      tag: 'SECURITY',
+      tag: 'TRUST',
+      title: 'Confidentiality & Integrity',
+      desc: 'Every professional engagement deserves discretion. We respect sensitive information, protect confidential discussions, and handle information responsibly.',
+      standard: 'TRUST-DRIVEN',
     },
     {
       icon: Scale,
-      title: 'Character & Purpose',
-      desc: 'Strategy divorced from character is self-terminating. We build systems with clear moral conviction.',
       tag: 'ETHICS',
+      title: 'Character & Purpose',
+      desc: 'Strategy without character is incomplete. Sustainable progress must be guided by integrity, responsibility, and a clear sense of purpose.',
+      standard: 'PRINCIPLE-LED',
     },
     {
       icon: Compass,
-      title: 'Implementation Feasibility',
-      desc: 'Zero ivory-tower slide decks that gather dust. Every roadmap includes pragmatic operational sequencing.',
       tag: 'EXECUTION',
+      title: 'Implementation Feasibility',
+      desc: 'Ideas create possibilities. Execution creates progress. Recommendations must account for real-world constraints, practical priorities, available resources, and the steps required to move forward.',
+      standard: 'BUILT FOR ACTION',
     },
     {
       icon: Shield,
-      title: 'Complete Capacity Transfer',
-      desc: 'We train your internal teams so your organization owns the capability fully without perpetual dependency.',
       tag: 'TRANSFER',
+      title: 'Capability Development',
+      desc: 'The best development work leaves people better equipped to solve problems themselves. We prioritise practical learning, knowledge sharing, and capabilities that continue to grow beyond a single engagement.',
+      standard: 'CAPACITY-BUILDING',
     },
     {
       icon: CheckCircle2,
-      title: 'Measurable Accountability',
-      desc: 'All engagements operate on pre-defined KPIs and scheduled reviews to ensure durable compounding return.',
       tag: 'OUTCOMES',
+      title: 'Measurable Accountability',
+      desc: 'Progress should be visible. Where appropriate, we establish clear objectives, define meaningful measures of success, and review outcomes to understand what is working and what needs to improve.',
+      standard: 'OUTCOME-FOCUSED',
     },
   ];
 
@@ -49,7 +55,7 @@ export const TrustGrid: React.FC = () => {
         82°N
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 sm:px-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
         
         {/* Mono Eyebrow */}
         <Reveal delay={0}>
@@ -70,8 +76,8 @@ export const TrustGrid: React.FC = () => {
 
         {/* Short Paragraph */}
         <Reveal delay={160}>
-          <p className="max-w-2xl text-lg sm:text-xl text-[#f3ece2] font-normal leading-[1.65] mb-14 drop-shadow-sm">
-            Whether advising corporate executive committees, training tech talent, or addressing keynote audiences, these commitments govern every engagement.
+          <p className="max-w-3xl text-lg sm:text-xl text-[#f3ece2] font-normal leading-[1.65] mb-14 drop-shadow-sm">
+            Whether developing business strategies, building systems, training people, or addressing audiences, these principles guide every engagement.
           </p>
         </Reveal>
 
@@ -105,7 +111,7 @@ export const TrustGrid: React.FC = () => {
 
                   <div className="mt-6 pt-4 border-t border-white/15 flex items-center justify-between text-xs font-mono text-[#d6cebe]">
                     <span>STANDARD 0{idx + 1}</span>
-                    <span className="text-beacon font-semibold">NON-NEGOTIABLE</span>
+                    <span className="text-beacon font-semibold">{item.standard}</span>
                   </div>
                 </div>
               </Reveal>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mic, GraduationCap, LineChart, Video, Compass, ArrowUpRight, Check, FileText } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
+import { SegmentedTabs } from './ui/SegmentedTabs';
 
 interface WhatIDoSectionProps {
   onSelectService: (service: string) => void;
@@ -77,6 +78,18 @@ export const WhatIDoSection: React.FC<WhatIDoSectionProps> = ({ onSelectService 
     },
   ];
 
+  const pillarTabs = pillars.map((pillar, idx) => ({
+    id: idx,
+    label: (
+      <>
+        <span>{pillar.num}</span>
+        <span>·</span>
+        <span>{pillar.title.split(' ')[0]}</span>
+      </>
+    ),
+    ariaLabel: `Discipline ${pillar.num}: ${pillar.title}`,
+  }));
+
   const current = pillars[activeTab];
 
   return (
@@ -114,22 +127,14 @@ export const WhatIDoSection: React.FC<WhatIDoSectionProps> = ({ onSelectService 
 
         {/* Interactive Pill Switcher Buttons */}
         <Reveal delay={220}>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-12">
-            {pillars.map((pillar, idx) => (
-              <button
-                key={pillar.num}
-                onClick={() => setActiveTab(idx)}
-                className={`px-5 py-3 rounded-full text-xs sm:text-sm font-mono uppercase tracking-wider btn-press active:scale-[0.96] flex items-center gap-2 cursor-pointer ${
-                  activeTab === idx
-                    ? 'bg-beacon text-black font-bold shadow-lg shadow-beacon/25 scale-[1.01]'
-                    : 'bg-black/40 hover:bg-black/70 text-stone-accent hover:text-white border border-white/15 backdrop-blur-md'
-                }`}
-              >
-                <span>{pillar.num}</span>
-                <span>·</span>
-                <span>{pillar.title.split(' ')[0]}</span>
-              </button>
-            ))}
+          <div className="mb-12">
+            <SegmentedTabs
+              tabs={pillarTabs}
+              activeId={activeTab}
+              onChange={setActiveTab}
+              tabClassName="py-3"
+              ariaLabel="Discipline pillars navigation"
+            />
           </div>
         </Reveal>
 

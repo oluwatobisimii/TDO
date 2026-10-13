@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mic, ArrowUpRight, Check, Compass, Users, Clock, FileText } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
+import { SegmentedTabs } from './ui/SegmentedTabs';
 
 interface SpeakingSectionProps {
   onOpenBooking: () => void;
@@ -60,6 +61,18 @@ export const SpeakingSection: React.FC<SpeakingSectionProps> = ({ onOpenBooking 
     },
   ];
 
+  const dossierTabs = dossiers.map((d, idx) => ({
+    id: idx,
+    label: (
+      <>
+        <span>0{idx + 1}</span>
+        <span>·</span>
+        <span>{d.title.split(' ')[0].replace(/,/g, '')}</span>
+      </>
+    ),
+    ariaLabel: `Dossier 0${idx + 1}: ${d.title}`,
+  }));
+
   const current = dossiers[activeDossier];
 
   return (
@@ -118,22 +131,13 @@ export const SpeakingSection: React.FC<SpeakingSectionProps> = ({ onOpenBooking 
           </div>
 
           {/* Keynote Navigation Tabs */}
-          <div className="p-4 sm:p-6 bg-black/40 border-b border-white/15 flex flex-wrap gap-2 sm:gap-3">
-            {dossiers.map((d, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveDossier(idx)}
-                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-mono uppercase tracking-wider transition-all duration-200 btn-press cursor-pointer ${
-                  activeDossier === idx
-                    ? 'bg-beacon text-black font-bold shadow-md shadow-beacon/25 scale-[1.02]'
-                    : 'bg-black/50 hover:bg-black/80 text-stone-accent hover:text-white border border-white/15'
-                }`}
-              >
-                <span>0{idx + 1}</span>
-                <span>·</span>
-                <span>{d.title.split(' ')[0]}</span>
-              </button>
-            ))}
+          <div className="p-4 sm:p-6 bg-black/40 border-b border-white/15">
+            <SegmentedTabs
+              tabs={dossierTabs}
+              activeId={activeDossier}
+              onChange={setActiveDossier}
+              ariaLabel="Keynote dossiers navigation"
+            />
           </div>
 
           {/* Dossier Content Body */}

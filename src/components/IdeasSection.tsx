@@ -4,6 +4,7 @@ import {
   ChevronLeft, ChevronRight 
 } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
+import { SegmentedTabs } from './ui/SegmentedTabs';
 import { BlogPost, getStoredBlogs } from '../data/blogs';
 
 export const IdeasSection: React.FC = () => {
@@ -23,6 +24,12 @@ export const IdeasSection: React.FC = () => {
   }, []);
 
   const categories = ['All', ...Array.from(new Set(blogs.map(b => b.category)))];
+
+  const categoryTabs = categories.map((cat) => ({
+    id: cat,
+    label: cat,
+    ariaLabel: `Filter by category: ${cat}`,
+  }));
 
   const filteredIdeas =
     activeCategory === 'All'
@@ -99,20 +106,13 @@ export const IdeasSection: React.FC = () => {
 
         {/* Category Filter Pills */}
         <Reveal delay={180}>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-10">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-mono uppercase tracking-wider btn-press active:scale-[0.96] cursor-pointer ${
-                  activeCategory === cat
-                    ? 'bg-beacon text-black font-bold shadow-md shadow-beacon/25 scale-[1.01]'
-                    : 'bg-black/40 hover:bg-black/70 text-stone-accent hover:text-white border border-white/15 backdrop-blur-md'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="mb-10">
+            <SegmentedTabs
+              tabs={categoryTabs}
+              activeId={activeCategory}
+              onChange={setActiveCategory}
+              ariaLabel="Ideas category filter"
+            />
           </div>
         </Reveal>
 

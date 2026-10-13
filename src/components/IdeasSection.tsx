@@ -11,6 +11,10 @@ export const IdeasSection: React.FC = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [activeCategory, setActiveCategory] = useState('All');
   const scrollTrackRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollStartLeft = useRef(0);
+  const dragDistance = useRef(0);
 
   // Load and subscribe to real-time blog updates
   useEffect(() => {
@@ -38,14 +42,39 @@ export const IdeasSection: React.FC = () => {
 
   const scrollLeft = () => {
     if (scrollTrackRef.current) {
-      scrollTrackRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+      scrollTrackRef.current.scrollBy({ left: -420, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (scrollTrackRef.current) {
-      scrollTrackRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+      scrollTrackRef.current.scrollBy({ left: 420, behavior: 'smooth' });
     }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollTrackRef.current) return;
+    isDragging.current = true;
+    dragDistance.current = 0;
+    startX.current = e.pageX - scrollTrackRef.current.offsetLeft;
+    scrollStartLeft.current = scrollTrackRef.current.scrollLeft;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !scrollTrackRef.current) return;
+    const x = e.pageX - scrollTrackRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.25;
+    dragDistance.current += Math.abs(walk);
+    scrollTrackRef.current.scrollLeft = scrollStartLeft.current - walk;
+  };
+
+  const handleMouseUp = () => {
+    isDragging.current = false;
+  };
+
+  const handleCardClick = (slug: string) => {
+    if (dragDistance.current > 10) return;
+    window.location.hash = `#/blog/${slug}`;
   };
 
   return (
@@ -115,71 +144,80 @@ export const IdeasSection: React.FC = () => {
             />
           </div>
         </Reveal>
+      </div>
 
-        {/* Horizontal Scrolling Track (Latest First) */}
+      {/* Horizontal Scrolling Track (Overflown Breakout Track, Snaps to Card, Hidden Scrollbar) */}
+      <div className="relative w-full z-10 my-4 overflow-hidden">
         <Reveal delay={220}>
-          <div className="relative -mx-6 sm:-mx-8 px-6 sm:px-8">
-            <div
-              ref={scrollTrackRef}
-              className="flex gap-6 overflow-x-auto pb-8 pt-2 scrollbar-none snap-x snap-mandatory"
-            >
-              {filteredIdeas.map((idea, idx) => (
-                <div
-                  key={idea.id}
-                  onClick={() => { window.location.hash = `#/blog/${idea.slug}`; }}
-                  className="w-[310px] sm:w-[380px] md:w-[420px] shrink-0 snap-start h-full group cursor-pointer"
-                >
-                  <div className="p-8 sm:p-9 rounded-3xl bg-black/60 hover:bg-black/80 border border-white/15 hover:border-beacon/50 transition-all duration-300 card-glow flex flex-col justify-between backdrop-blur-xl shadow-xl h-full min-h-[380px] relative overflow-hidden">
-                    
-                    {/* Top Glow Edge on Hover */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-beacon/0 to-transparent group-hover:via-beacon transition-all duration-300" />
+          <div
+            ref={scrollTrackRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            className="flex gap-6 overflow-x-auto pb-8 pt-2 carousel-breakout-track scrollbar-none no-scrollbar snap-x snap-mandatory scroll-smooth cursor-grab active:cursor-grabbing select-none"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
+            {filteredIdeas.map((idea) => (
+              <div
+                key={idea.id}
+                onClick={() => handleCardClick(idea.slug)}
+                className="w-[310px] sm:w-[380px] md:w-[420px] shrink-0 snap-start snap-always h-full group cursor-pointer"
+              >
+                <div className="p-8 sm:p-9 rounded-3xl bg-black/60 hover:bg-black/80 border border-white/15 hover:border-beacon/50 transition-all duration-300 card-glow flex flex-col justify-between backdrop-blur-xl shadow-xl h-full min-h-[380px] relative overflow-hidden">
+                  
+                  {/* Top Glow Edge on Hover */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-beacon/0 to-transparent group-hover:via-beacon transition-all duration-300" />
 
-                    <div>
-                      {/* Meta Tags */}
-                      <div className="flex items-center justify-between gap-2 mb-4">
-                        <span className="px-3 py-1 rounded-full bg-white/[0.08] border border-white/15 font-mono text-[11px] tracking-widest uppercase text-beacon font-semibold">
-                          {idea.category}
-                        </span>
-                        <div className="flex items-center gap-1.5 font-mono text-xs text-[#d6cebe]">
-                          <span>{idea.readTime} read</span>
-                          {idea.date && <span className="opacity-40">· {idea.date}</span>}
-                        </div>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="font-serif text-2xl sm:text-3xl text-white font-medium mb-3 group-hover:text-beacon transition-colors leading-snug drop-shadow-sm">
-                        {idea.title}
-                      </h3>
-
-                      {/* Excerpt */}
-                      <p className="text-sm sm:text-base text-[#e2d8cc] leading-[1.65] mb-6 line-clamp-3">
-                        {idea.excerpt}
-                      </p>
-                    </div>
-
-                    <div>
-                      {/* Takeaway Quote */}
-                      <div className="pt-4 border-t border-white/15 mb-4">
-                        <div className="font-serif italic text-amber-300 text-xs sm:text-sm line-clamp-2">
-                          "{idea.takeaway}"
-                        </div>
-                      </div>
-
-                      {/* Interactive Read Link Indicator */}
-                      <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-stone-accent group-hover:text-beacon transition-colors pt-2">
-                        <span className="font-semibold">Read Full Discourse</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <div>
+                    {/* Meta Tags */}
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <span className="px-3 py-1 rounded-full bg-white/[0.08] border border-white/15 font-mono text-[11px] tracking-widest uppercase text-beacon font-semibold">
+                        {idea.category}
+                      </span>
+                      <div className="flex items-center gap-1.5 font-mono text-xs text-[#d6cebe]">
+                        <span>{idea.readTime} read</span>
+                        {idea.date && <span className="opacity-40">· {idea.date}</span>}
                       </div>
                     </div>
 
+                    {/* Title */}
+                    <h3 className="font-serif text-2xl sm:text-3xl text-white font-medium mb-3 group-hover:text-beacon transition-colors leading-snug drop-shadow-sm">
+                      {idea.title}
+                    </h3>
+
+                    {/* Excerpt */}
+                    <p className="text-sm sm:text-base text-[#e2d8cc] leading-[1.65] mb-6 line-clamp-3">
+                      {idea.excerpt}
+                    </p>
                   </div>
+
+                  <div>
+                    {/* Takeaway Quote */}
+                    <div className="pt-4 border-t border-white/15 mb-4">
+                      <div className="font-serif italic text-amber-300 text-xs sm:text-sm line-clamp-2">
+                        "{idea.takeaway}"
+                      </div>
+                    </div>
+
+                    {/* Interactive Read Link Indicator */}
+                    <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-stone-accent group-hover:text-beacon transition-colors pt-2">
+                      <span className="font-semibold">Read Full Discourse</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </div>
+                  </div>
+
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </Reveal>
+      </div>
 
-        {/* Translucent Glass Field Note Card */}
+      {/* Translucent Glass Field Note Card Container */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
         <Reveal delay={340}>
           <div className="mt-8 p-7 sm:p-9 rounded-2xl bg-black/60 border border-white/15 backdrop-blur-2xl shadow-xl relative overflow-hidden">
             <div className="flex items-center gap-2.5 mb-3">
@@ -199,7 +237,6 @@ export const IdeasSection: React.FC = () => {
             </div>
           </div>
         </Reveal>
-
       </div>
 
     </section>

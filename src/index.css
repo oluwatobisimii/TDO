@@ -14,6 +14,7 @@
     background-color: #0a0a0a;
     color: #ffedd7;
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -220,6 +221,45 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #f59e0b;
+}
+
+/* Hide scrollbar across all engines (Webkit, Firefox, IE/Edge) */
+.scrollbar-none::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.scrollbar-none,
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Ideas Section Breakout Track: Overflows container boundary to screen edge seamlessly */
+.carousel-breakout-track {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  scroll-padding-left: 1.5rem;
+  scroll-padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .carousel-breakout-track {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    scroll-padding-left: 2rem;
+    scroll-padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1344px) {
+  .carousel-breakout-track {
+    padding-left: calc((100vw - 80rem) / 2 + 2rem);
+    padding-right: calc((100vw - 80rem) / 2 + 2rem);
+    scroll-padding-left: calc((100vw - 80rem) / 2 + 2rem);
+    scroll-padding-right: calc((100vw - 80rem) / 2 + 2rem);
+  }
 }
 
 /* WYSIWYG Content Typography */

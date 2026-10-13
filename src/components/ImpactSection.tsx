@@ -93,7 +93,7 @@ export const ImpactSection: React.FC = () => {
         75°N
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 sm:px-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
         
         {/* Mono Eyebrow */}
         <Reveal delay={0}>
@@ -120,24 +120,24 @@ export const ImpactSection: React.FC = () => {
         </Reveal>
 
         {/* Big Bold Uncrowded Animated Stats Grid (Large & Readable) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-20">
           {stats.map((stat, idx) => (
             <Reveal key={idx} delay={180 + idx * 70}>
               <div
-                className="p-8 sm:p-9 rounded-3xl bg-black/60 hover:bg-black/75 border border-white/15 hover:border-beacon/40 card-press flex flex-col justify-between group backdrop-blur-xl shadow-xl h-full"
+                className="p-6 sm:p-7 rounded-3xl bg-black/60 hover:bg-black/75 border border-white/15 hover:border-beacon/40 card-press flex flex-col justify-between group backdrop-blur-xl shadow-xl h-full"
               >
                 <div>
-                  <span className="text-xs font-mono text-stone-accent group-hover:text-beacon transition-colors block mb-4 uppercase tracking-widest font-semibold">
+                  <span className="text-xs font-mono text-stone-accent group-hover:text-beacon transition-colors block mb-3 uppercase tracking-widest font-semibold">
                     METRIC 0{idx + 1}
                   </span>
                   <div
                     data-target={stat.value}
                     data-suffix={stat.suffix}
-                    className="stat-number font-serif text-5xl sm:text-6xl text-white font-normal tracking-tight mb-2 drop-shadow-sm"
+                    className="stat-number font-serif text-3xl sm:text-4xl lg:text-[2.5rem] xl:text-[2.75rem] text-white font-normal tracking-tight mb-2 drop-shadow-sm whitespace-nowrap"
                   >
                     0{stat.suffix}
                   </div>
-                  <h3 className="font-sans text-lg text-white font-medium mb-1">
+                  <h3 className="font-sans text-base sm:text-lg text-white font-medium mb-1">
                     {stat.label}
                   </h3>
                 </div>

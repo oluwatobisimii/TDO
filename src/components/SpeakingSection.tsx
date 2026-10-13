@@ -12,6 +12,7 @@ export const SpeakingSection: React.FC<SpeakingSectionProps> = ({ onOpenBooking 
 
   const dossiers = [
     {
+      tabLabel: 'BUILDING',
       title: 'Building Businesses That Last',
       subtitle: 'Engineering African Enterprises for Multi-Decade Resilience',
       audience: 'Executive Summits, Board Retreats, Corporate Conventions',
@@ -24,6 +25,7 @@ export const SpeakingSection: React.FC<SpeakingSectionProps> = ({ onOpenBooking 
       ],
     },
     {
+      tabLabel: 'TECHNOLOGY',
       title: 'Technology & the Future of Work',
       subtitle: 'Data Intelligence, AI Leaps, and Cognitive Leverage',
       audience: 'Tech Summits, Product Leaders, Enterprise Tech Teams',
@@ -36,6 +38,7 @@ export const SpeakingSection: React.FC<SpeakingSectionProps> = ({ onOpenBooking 
       ],
     },
     {
+      tabLabel: 'LEADERSHIP',
       title: 'Leadership & Personal Responsibility',
       subtitle: 'The Non-Negotiable Foundation of Authority',
       audience: 'Executive Retreats, Emerging Leaders, MBA Cohorts',
@@ -48,6 +51,7 @@ export const SpeakingSection: React.FC<SpeakingSectionProps> = ({ onOpenBooking 
       ],
     },
     {
+      tabLabel: 'PURPOSE',
       title: 'Purpose, Discipline & Execution',
       subtitle: 'Closing the Gap Between Potential and Output',
       audience: 'Young Professionals, Builders, University Forums',
@@ -67,7 +71,7 @@ export const SpeakingSection: React.FC<SpeakingSectionProps> = ({ onOpenBooking 
       <>
         <span>0{idx + 1}</span>
         <span>·</span>
-        <span>{d.title.split(' ')[0].replace(/,/g, '')}</span>
+        <span>{d.tabLabel}</span>
       </>
     ),
     ariaLabel: `Dossier 0${idx + 1}: ${d.title}`,
